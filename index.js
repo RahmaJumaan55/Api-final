@@ -12,7 +12,9 @@ const users = require("./routes/users")
 const categories = require("./routes/categories")
 
 mongoose
-  .connect(`mongodb://localhost:27017/Book`)
+  .connect(`mongodb+srv://Rahma1419:${process.env.MNGODBPASSWORD}@cluster0.g7uww.mongodb.net/library?retryWrites=true&w=majority
+
+  `)
   .then(() => {
     console.log("Connect to mongdb")
   })
