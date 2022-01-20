@@ -3,7 +3,7 @@ const checkAdmin = require("../middleware/checkAdmin")
 const checkid = require("../middleware/checkid")
 const checkToken = require("../middleware/checkToken")
 const validatebody = require("../middleware/validatebody")
-const { Book, bookAddJoi } = require("../models/Book")
+const { Book, bookAddJoi,bookEditJoi } = require("../models/Book")
 // const { Room } = require("../models/Room")
 const { User } = require("../models/User")
 const { Comment, commentJoi } = require("../models/Comment")
@@ -40,6 +40,28 @@ router.post("/", checkAdmin, validatebody(bookAddJoi), async (req, res) => {
     res.json(book)
   } catch (error) {
     res.status(500).send(error.message)
+  }
+})
+//-------------------------------------------edit Book--------------------------------------------------------//
+router.put("/:id", checkAdmin, checkid, validatebody(bookEditJoi), async (req, res) => {
+  try {
+   const  { title, description, poster, category,bookpdf } = req.body
+   const book = await Book.findByIdAndUpdate(req.params.id , {
+        $set: {
+          title,
+          description,
+          poster,
+          category,
+          bookpdf,
+        },
+      },
+      { new: true }
+    )
+    if (!book) return res.status(404).send("book not found")
+    res.json(book)
+  } catch (error) {
+    console.log(error)
+    res.status(300).send(error.message)
   }
 })
 //-------------------------------------------Delete Book--------------------------------------------------------//

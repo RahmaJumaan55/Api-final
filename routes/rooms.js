@@ -67,24 +67,24 @@ router.post("/", checkToken, validatebody(roomAddJoi), async (req, res) => {
 })
 
 //-------------------------------------------delete Comment------------------------------------------------------------//
-// router.delete("/:bookId/comments/:commentId", checkToken, validateId("filmId", "commentId"), async (req, res) => {
-//   try {
-//     const book = await Book.findById(req.params.bookId)
-//     if (!book) return res.status(404).send("book not found")
+router.delete("/:bookId/comments/:commentId", checkToken, validateId("bookId", "commentId"), async (req, res) => {
+  try {
+    const book = await Book.findById(req.params.bookId)
+    if (!book) return res.status(404).send("book not found")
 
-//     const user = await User.findById(req.userId)
+    const user = await User.findById(req.userId)
 
-//     const commentFound = await Comment.findById(req.params.commentId)
+    const commentFound = await Comment.findById(req.params.commentId)
 
-//     if (user.role !== "Admin" && commentFound.owner != req.userId)
-//       return res.status(403).send("unauthoraiztion action ")
-//     await Book.findOneAndUpdate(req.params.bookId, { $pull: { comments: commentFound._id } })
+    if (user.role !== "Admin" && commentFound.owner != req.userId)
+      return res.status(403).send("unauthoraiztion action ")
+    await Book.findOneAndUpdate(req.params.bookId, { $pull: { comments: commentFound._id } })
 
-//     await Comment.findOneAndRemove(req.params.commentId)
-//     res.send("comment is removed")
-//   } catch (error) {
-//     console.log(error)
-//     res.status(500).send(error)
-//   }
-
+    await Comment.findOneAndRemove(req.params.commentId)
+    res.send("comment is removed")
+  } catch (error) {
+    console.log(error)
+    res.status(500).send(error)
+  }
+})
 module.exports = router

@@ -34,8 +34,17 @@ const bookAddJoi = Joi.object({
   category: Joi.array().items().min(1).required(),
   bookpdf: Joi.string().uri().min(1).required(),
 })
+const bookEditJoi = Joi.object({
+  title: Joi.string().min(1).max(200),
+  description: Joi.string().min(5).max(1000),
+  poster: Joi.string().min(5).max(1000),
+  category: Joi.array().items().min(1),
+  bookpdf: Joi.string().uri().min(1),
+})
 
 const Book = mongoose.model("Book", bookSchema)
 
 module.exports.bookAddJoi = bookAddJoi
+module.exports.bookEditJoi = bookEditJoi
+
 module.exports.Book = Book
