@@ -8,8 +8,13 @@ const categorySchema = new mongoose.Schema({
 const categoryJoi = Joi.object({
   name: Joi.string().min(3).max(1000),
 })
+const categoryEditJoi = Joi.object({
+  name: Joi.string().min(3).max(1000),
+})
 
 const Category = mongoose.model("Category", categorySchema)
 
 module.exports.Category = Category
 module.exports.categoryJoi = categoryJoi
+module.exports.categoryEditJoi = categoryEditJoi
+
